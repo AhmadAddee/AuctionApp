@@ -28,6 +28,8 @@ namespace ProjektApp.Controllers
             }
             return View(auctionVMs);
         }
+
+        //Ping the remote repo
          /*
         // GET: AuctionsController/Details/5
         public ActionResult Details(int id)
