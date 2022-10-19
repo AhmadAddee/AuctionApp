@@ -16,7 +16,10 @@ namespace ProjektApp.Controllers
             _auctionService = auctionService;
         }
 
-
+        /** This method is called from the client browser.
+         * Returns completed pure HTML pages to the client browser
+         * 
+         */
         // GET: AuctionsController
         public ActionResult Index()
         {
@@ -29,76 +32,83 @@ namespace ProjektApp.Controllers
             return View(auctionVMs);
         }
 
-        //Ping the remote repo
-         /*
-        // GET: AuctionsController/Details/5
-        public ActionResult Details(int id)
+        public string Foo()
         {
-            return View();
+            List<Auction> auctions = _auctionService.GetAll();
+            DateTime dateTime = auctions.ElementAt(0).CreatedDate;
+            var theTestData = $"The time now is: {DateTime.Now} and the created date is: {dateTime} and the difference is : {(DateTime.Now - dateTime).TotalHours >= 24}";
+            return theTestData.ToString();
         }
 
-        // GET: AuctionsController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+        /*
+       // GET: AuctionsController/Details/5
+       public ActionResult Details(int id)
+       {
+           return View();
+       }
 
-        // POST: AuctionsController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+       // GET: AuctionsController/Create
+       public ActionResult Create()
+       {
+           return View();
+       }
 
-        // GET: AuctionsController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+       // POST: AuctionsController/Create
+       [HttpPost]
+       [ValidateAntiForgeryToken]
+       public ActionResult Create(IFormCollection collection)
+       {
+           try
+           {
+               return RedirectToAction(nameof(Index));
+           }
+           catch
+           {
+               return View();
+           }
+       }
 
-        // POST: AuctionsController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+       // GET: AuctionsController/Edit/5
+       public ActionResult Edit(int id)
+       {
+           return View();
+       }
 
-        // GET: AuctionsController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+       // POST: AuctionsController/Edit/5
+       [HttpPost]
+       [ValidateAntiForgeryToken]
+       public ActionResult Edit(int id, IFormCollection collection)
+       {
+           try
+           {
+               return RedirectToAction(nameof(Index));
+           }
+           catch
+           {
+               return View();
+           }
+       }
 
-        // POST: AuctionsController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-         */
+       // GET: AuctionsController/Delete/5
+       public ActionResult Delete(int id)
+       {
+           return View();
+       }
+
+       // POST: AuctionsController/Delete/5
+       [HttpPost]
+       [ValidateAntiForgeryToken]
+       public ActionResult Delete(int id, IFormCollection collection)
+       {
+           try
+           {
+               return RedirectToAction(nameof(Index));
+           }
+           catch
+           {
+               return View();
+           }
+       }
+        */
     }
 }

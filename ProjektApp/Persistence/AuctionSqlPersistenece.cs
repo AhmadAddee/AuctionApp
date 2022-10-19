@@ -4,11 +4,11 @@ using ProjektApp.Core.Interfaces;
 
 namespace ProjektApp.Persistence
 {
-    public class ProjectSqlPersistenece : IAuctionPersistence
+    public class AuctionSqlPersistenece : IAuctionPersistence
     {
         private AuctionDbContext _dbContext;
 
-        public ProjectSqlPersistenece(AuctionDbContext dbContext)
+        public AuctionSqlPersistenece(AuctionDbContext dbContext)
         {
             _dbContext = dbContext;
         }

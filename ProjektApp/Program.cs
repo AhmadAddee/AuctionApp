@@ -3,12 +3,16 @@ using ProjektApp.Core;
 using ProjektApp.Persistence;
 using Microsoft.EntityFrameworkCore;
 
+/** The starting point of the application (closest to Main in Java).
+ * 
+ */
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IAuctionService, AuctionService>();
-builder.Services.AddScoped<IAuctionPersistence, ProjectSqlPersistenece>();
+builder.Services.AddScoped<IAuctionPersistence, AuctionSqlPersistenece>();
 
 
 // db, with dependency injection
@@ -26,6 +30,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+// Force the browser to use HTTPS insteade of HTTP.
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
