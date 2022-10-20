@@ -72,23 +72,24 @@ namespace ProjektApp.Controllers
             return View(vm);
        }
 
-        /*
-
+        
+        
 
        // GET: AuctionsController/Edit/5
        public ActionResult Edit(int id)
        {
            return View();
        }
-        */
+        
        // POST: AuctionsController/Edit/5
        [HttpPost]
        [ValidateAntiForgeryToken]
        public ActionResult Edit(int id, AuctionVM vm)
        {
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
             {
-               
+                Auction auction = new Auction(id, vm.Description);
+                _auctionService.UpdateDesc( auction);
             }
             return RedirectToAction("Index");
        }

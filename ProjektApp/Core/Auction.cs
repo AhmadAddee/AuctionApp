@@ -65,6 +65,12 @@
             CreatedDate = DateTime.Now;
         }
 
+        public Auction(int id, string description)
+        {
+            Id = id;
+            Description = description;
+        }
+
         // For mockdata
         public Auction() { }
 

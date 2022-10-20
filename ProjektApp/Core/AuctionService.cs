@@ -29,5 +29,10 @@ namespace ProjektApp.Core
             _auctionPersistence.Add(auction);
         }
 
+        public void UpdateDesc(Auction auction)
+        {
+          //  if(auction == null || auction.Id != 0) throw new InvalidDataException();
+            _auctionPersistence.UpdateDesc(auction);
+        }
     }
 }

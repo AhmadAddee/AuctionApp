@@ -51,6 +51,18 @@ namespace ProjektApp.Persistence
             _dbContext.AuctionDbs.Add(adp);
             _dbContext.SaveChanges();
         }
+
+        public void UpdateDesc(Auction auction)
+        {
+           var adb = _dbContext.AuctionDbs
+                .Where(a => a.Id == auction.Id)
+                .SingleOrDefault();
+           // if(adb == null)
+            {
+                adb.Description = auction.Description;
+                _dbContext.SaveChanges();
+            }
+        }
     }
 }
 
