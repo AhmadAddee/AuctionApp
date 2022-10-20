@@ -14,7 +14,7 @@
         public string AuctionOwner { get; set; }
         public float StartingPrice { get; set; }
         public float HighestBid { get; set; }
-        public DateTime CreatedDate { get; }
+        public DateTime CreatedDate { get; set; }
 
         public List<Bid> _bids = new List<Bid>();
         public IEnumerable<Bid> Bids => _bids;
@@ -25,6 +25,15 @@
             Title = title;
             Description = description;
             AuctionOwner = auctionOwner;
+            StartingPrice = staringPrice;
+            HighestBid = StartingPrice;
+            CreatedDate = DateTime.Now;
+        }
+
+        public Auction(string title, string description, float staringPrice)
+        {
+            Title = title;
+            Description = description;
             StartingPrice = staringPrice;
             HighestBid = StartingPrice;
             CreatedDate = DateTime.Now;

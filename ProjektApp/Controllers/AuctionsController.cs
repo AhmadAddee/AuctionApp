@@ -47,7 +47,6 @@ namespace ProjektApp.Controllers
             return View(detailsVM);
        }
 
-        /*
         
        // GET: AuctionsController/Create
        public ActionResult Create()
@@ -58,17 +57,24 @@ namespace ProjektApp.Controllers
        // POST: AuctionsController/Create
        [HttpPost]
        [ValidateAntiForgeryToken]
-       public ActionResult Create(IFormCollection collection)
+       public ActionResult Create(CreateAuctionVM vm)
        {
-           try
-           {
-               return RedirectToAction(nameof(Index));
-           }
-           catch
-           {
-               return View();
-           }
+            if (ModelState.IsValid)
+            {
+                Auction auction = new Auction()
+                {
+                    Title = vm.Title,
+                    Description = vm.Description,
+                    StartingPrice = vm.StartingPrice,
+                };
+                _auctionService.Add(auction);
+                return RedirectToAction("Index");
+            }
+            return View(vm);
        }
+
+        /*
+
 
        // GET: AuctionsController/Edit/5
        public ActionResult Edit(int id)
