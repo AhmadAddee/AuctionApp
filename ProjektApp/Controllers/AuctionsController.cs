@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjektApp.Core;
 using ProjektApp.Core.Interfaces;
@@ -6,6 +7,7 @@ using ProjektApp.ViewModels;
 
 namespace ProjektApp.Controllers
 {
+    [Authorize]
     public class AuctionsController : Controller
     {
         private readonly IAuctionService _auctionService;
