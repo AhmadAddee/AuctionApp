@@ -8,7 +8,6 @@ namespace ProjektApp.Controllers
 {
     public class AuctionsController : Controller
     {
-
         private readonly IAuctionService _auctionService;
 
         public AuctionsController(IAuctionService auctionService)
@@ -81,21 +80,19 @@ namespace ProjektApp.Controllers
        {
            return View();
        }
-
+        */
        // POST: AuctionsController/Edit/5
        [HttpPost]
        [ValidateAntiForgeryToken]
-       public ActionResult Edit(int id, IFormCollection collection)
+       public ActionResult Edit(int id, AuctionVM vm)
        {
-           try
-           {
-               return RedirectToAction(nameof(Index));
-           }
-           catch
-           {
-               return View();
-           }
+            if (ModelState.IsValid)
+            {
+               
+            }
+            return RedirectToAction("Index");
        }
+        /*
 
        // GET: AuctionsController/Delete/5
        public ActionResult Delete(int id)
