@@ -3,5 +3,7 @@
     public interface IAuctionPersistence
     {
         List<Auction> GetAll();
+
+        Auction GetById(int id);
     }
 }

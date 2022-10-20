@@ -15,5 +15,11 @@ namespace ProjektApp.Core
         {
             return _auctionPersistence.GetAll();
         }
+
+        public Auction GetById(int id)
+        {
+           return _auctionPersistence.GetById(id);
+        }
+
     }
 }

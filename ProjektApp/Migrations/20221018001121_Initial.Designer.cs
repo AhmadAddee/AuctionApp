@@ -23,7 +23,7 @@ namespace ProjektApp.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("ProjektApp.Persistence.AuctionDB", b =>
+            modelBuilder.Entity("ProjektApp.Persistence.AuctionDb", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -43,7 +43,7 @@ namespace ProjektApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AuctionDBs");
+                    b.ToTable("AuctionDbs");
 
                     b.HasData(
                         new
@@ -54,7 +54,7 @@ namespace ProjektApp.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ProjektApp.Persistence.BidDB", b =>
+            modelBuilder.Entity("ProjektApp.Persistence.BidDb", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -75,18 +75,18 @@ namespace ProjektApp.Migrations
                     b.ToTable("BidDbs");
                 });
 
-            modelBuilder.Entity("ProjektApp.Persistence.BidDB", b =>
+            modelBuilder.Entity("ProjektApp.Persistence.BidDb", b =>
                 {
-                    b.HasOne("ProjektApp.Persistence.AuctionDB", "AuctionDB")
+                    b.HasOne("ProjektApp.Persistence.AuctionDb", "AuctionDb")
                         .WithMany("BidDBs")
                         .HasForeignKey("AuctionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AuctionDB");
+                    b.Navigation("AuctionDb");
                 });
 
-            modelBuilder.Entity("ProjektApp.Persistence.AuctionDB", b =>
+            modelBuilder.Entity("ProjektApp.Persistence.AuctionDb", b =>
                 {
                     b.Navigation("BidDBs");
                 });

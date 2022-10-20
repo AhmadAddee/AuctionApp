@@ -9,7 +9,7 @@ namespace ProjektApp.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AuctionDBs",
+                name: "AuctionDbs",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -37,13 +37,13 @@ namespace ProjektApp.Migrations
                     table.ForeignKey(
                         name: "FK_BidDbs_AuctionDBs_AuctionId",
                         column: x => x.AuctionId,
-                        principalTable: "AuctionDBs",
+                        principalTable: "AuctionDbs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
-                table: "AuctionDBs",
+                table: "AuctionDbs",
                 columns: new[] { "Id", "Description", "Name" },
                 values: new object[] { -1, "This is the description", "The new data from the database!!" });
 
@@ -59,7 +59,7 @@ namespace ProjektApp.Migrations
                 name: "BidDbs");
 
             migrationBuilder.DropTable(
-                name: "AuctionDBs");
+                name: "AuctionDbs");
         }
     }
 }

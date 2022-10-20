@@ -3,7 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjektApp.Persistence
 {
-    public class BidDB
+    /*
+     * A database class that represents the Bid table, created in the database via Entity Framework.
+     */
+    public class BidDb
     {
         [Key]
         public int Id { get; set; }
@@ -13,9 +16,11 @@ namespace ProjektApp.Persistence
 
         [Required]
         [DataType(DataType.DateTime)]
-        private DateTime BidDate { get; set; }
+        public DateTime BidDate { get; set; }
 
         [ForeignKey("AuctionId")]
-        public AuctionDB AuctionDB { get; set; }
+        public AuctionDb AuctionDb { get; set; }
+
+        public int AuctionId { get; set; }
     }
 }

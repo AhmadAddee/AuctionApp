@@ -19,6 +19,9 @@ builder.Services.AddScoped<IAuctionPersistence, AuctionSqlPersistenece>();
 builder.Services.AddDbContext<AuctionDbContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("AuctionDbConnection")));
 
+//add auto mapper scanning (requires AutoMapper package)
+builder.Services.AddAutoMapper(typeof(Program));
+
 
 var app = builder.Build();
 

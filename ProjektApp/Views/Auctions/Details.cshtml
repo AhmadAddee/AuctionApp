@@ -1,0 +1,79 @@
+﻿@model ProjektApp.ViewModels.AuctionDetailsVM
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Auction Details</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Starting_Price)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Starting_Price)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Created_Date)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Created_Date)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Is_Expired)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Is_Expired)
+        </dd>
+    </dl>
+</div>
+<div>
+    <h4>Bids</h4>
+    <table claass="table">
+        <thead>
+            <tr>
+                <th>
+                    <b>Offer amount</b>
+                </th>
+                <th>
+                    <b>Bid date</b>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.BidVMs)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Offer_Amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Bid_Date)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit bid", "EditBid", new { id = item.Id})
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -16,9 +16,8 @@ namespace ProjektApp.Controllers
             _auctionService = auctionService;
         }
 
-        /** This method is called from the client browser.
+        /* This method is called from the client browser.
          * Returns completed pure HTML pages to the client browser
-         * 
          */
         // GET: AuctionsController
         public ActionResult Index()
@@ -34,19 +33,22 @@ namespace ProjektApp.Controllers
 
         public string Foo()
         {
-            List<Auction> auctions = _auctionService.GetAll();
-            DateTime dateTime = auctions.ElementAt(0).CreatedDate;
-            var theTestData = $"The time now is: {DateTime.Now} and the created date is: {dateTime} and the difference is : {(DateTime.Now - dateTime).TotalHours >= 24}";
+            Auction auctions = _auctionService.GetById(-1);
+            DateTime dateTime = auctions.CreatedDate;
+            var theTestData = $"The time now is: {DateTime.Now} and the created date is: {dateTime} and is expired : {auctions.Bids.Count()}";
             return theTestData.ToString();
         }
-
-        /*
+        
        // GET: AuctionsController/Details/5
-       public ActionResult Details(int id)
-       {
-           return View();
+       public ActionResult Details(int id) 
+        {
+            Auction auction = _auctionService.GetById(id);
+            AuctionDetailsVM detailsVM = AuctionDetailsVM.FromAuction(auction);
+            return View(detailsVM);
        }
 
+        /*
+        
        // GET: AuctionsController/Create
        public ActionResult Create()
        {
