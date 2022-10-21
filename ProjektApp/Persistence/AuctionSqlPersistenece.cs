@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProjektApp.Core;
 using ProjektApp.Core.Interfaces;
+using System.Globalization;
 
 namespace ProjektApp.Persistence
 {
@@ -18,7 +19,11 @@ namespace ProjektApp.Persistence
 
         public List<Auction> GetAll()
         {
-            var auctionDbs = _dbContext.AuctionDbs.ToList();
+            // Filter the list so that only ongoing auction is stored in it.
+            // Query the database after auctions where their creteddate is lower than 24 h.
+            var auctionDbs = _dbContext.AuctionDbs.AsEnumerable()
+                .Where(a => _mapper.Map<Auction>(a).IsExpired() == false)
+                .ToList();
 
             List<Auction> result = new List<Auction>();
             foreach (AuctionDb auct in auctionDbs)
