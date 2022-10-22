@@ -42,9 +42,6 @@ namespace ProjektApp.Controllers
             Auction auction = _auctionService.GetById(id);
             if(auction == null) return NotFound();
 
-            // check if current user own this auction!
-            //if(!auction.UserName.Equals(User.Identity.Name)) return BadRequest();
-
             AuctionDetailsVM detailsVM = AuctionDetailsVM.FromAuction(auction);
             return View(detailsVM);
        }
@@ -74,9 +71,6 @@ namespace ProjektApp.Controllers
             }
             return View(vm);
        }
-
-        
-        
 
        // GET: AuctionsController/Edit/5
        public ActionResult Edit(int id, ErrorViewModel accVM)
@@ -126,33 +120,6 @@ namespace ProjektApp.Controllers
             return View(auctionVMs);
         }
 
-        /*
-        // GET: AuctionsController/MakeBid
-        public ActionResult MakeBid(int id)
-        {
-            return View();
-        }
-        
-        // POST: AuctionsController/MakeBid
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult MakeBid(int id, MakeABidVM vm)
-        {
-            if (ModelState.IsValid)
-            {
-                Bid bid = new Bid()
-                {
-                    OfferAmount = vm.OfferAmount,
-                    AuctionId = id,
-                    BidMaker = User.Identity.Name,
-                };
-                _auctionService.AddBid(id, bid);
-                return RedirectToAction("Index");
-            }
-            return View(vm);
-        }
-        */
-
         // GET: AuctionsController/WinnerList
         public ActionResult WinnerList()
         {
@@ -169,6 +136,9 @@ namespace ProjektApp.Controllers
         // GET: AuctionsController/Bid
         public ActionResult Bid(int id)
         {
+            Auction auction = _auctionService.GetById(id);
+            if (auction == null) return NotFound();
+            if(auction.UserName.Equals( User.Identity.Name)) return BadRequest();
             return View();
         }
 
@@ -176,15 +146,21 @@ namespace ProjektApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Bid(int id, BidVM bidVm)
         {
+
             var bid = new Bid()
             {
                 BidMaker = User.Identity.Name,
                 AuctionId = id,
                 OfferAmount = bidVm.Offer_Amount,
             };
-
+            
              _auctionService.InitateBid(id, bid);
-            return View(bidVm);
+
+
+            Auction auction = _auctionService.GetById(id);
+            if (auction == null) return NotFound();
+            AuctionDetailsVM detailsVM = AuctionDetailsVM.FromAuction(auction);
+            return RedirectToAction("Details", detailsVM);
         }
 
 
