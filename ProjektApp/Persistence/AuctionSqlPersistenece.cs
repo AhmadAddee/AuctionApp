@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProjektApp.Core;
 using ProjektApp.Core.Interfaces;
-using System.Globalization;
+using System.Linq;
 
 namespace ProjektApp.Persistence
 {
@@ -147,18 +147,7 @@ namespace ProjektApp.Persistence
                     _dbContext.SaveChanges();
                     return true;
                 }
-                //else { return false; }
             }
-
-
-            /* if(bid.OfferAmount > auctionDd.StartingPrice)
-             {
-                 BidDb bids= _mapper.Map<BidDb>(bid);
-                 _dbContext.BidDbs.Add(bids);
-                 bids.AuctionId = id;
-                 _dbContext.SaveChanges();
-                 return true;
-             }*/
 
 
             return false;
@@ -167,7 +156,25 @@ namespace ProjektApp.Persistence
 
         public List<Auction> GetWinnerList(string userName)
         {
-            throw new NotImplementedException();
+
+            var auctionDbs = _dbContext.AuctionDbs
+                .Include(a => a.BidDbs )
+                .AsEnumerable()
+                .Where(a => (_mapper.Map<Auction>(a).IsExpired() == true)
+                && a.BidDbs.Any(b => a.Id == b.AuctionId && b.BidMaker.Equals(userName) 
+                && b.OfferAmount == a.BidDbs.Max(m => m.OfferAmount)))
+                .ToList();
+
+            List<Auction> result = new List<Auction>();
+            if (auctionDbs != null)
+            {
+                foreach (AuctionDb auct in auctionDbs)
+                {
+                    Auction auction = _mapper.Map<Auction>(auct);
+                    result.Add(auction);
+                }
+            }
+            return result;
         }
 
         public void Delete(int id)
@@ -175,7 +182,6 @@ namespace ProjektApp.Persistence
             var adb = _dbContext.AuctionDbs
                 .Where(a => a.Id == id)
                 .SingleOrDefault();
-            //_dbContext.AuctionDbs.Attach(adb);
 
             if(adb != null)
             {

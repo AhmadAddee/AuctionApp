@@ -152,6 +152,20 @@ namespace ProjektApp.Controllers
             return View(vm);
         }
         */
+
+        // GET: AuctionsController/WinnerList
+        public ActionResult WinnerList()
+        {
+            string userName = User.Identity.Name;
+            List<Auction> auctions = _auctionService.GetWinnerList(userName);
+            List<AuctionVM> auctionVMs = new List<AuctionVM>();
+            foreach (var auction in auctions)
+            {
+                auctionVMs.Add(AuctionVM.FromAuction(auction));
+            }
+            return View(auctionVMs);
+        }
+
         // GET: AuctionsController/Bid
         public ActionResult Bid(int id)
         {

@@ -50,11 +50,17 @@ namespace ProjektApp.Core
             return _auctionPersistence.InitateBid(id, bid);
         }
 
+        public List<Auction> GetWinnerList(string userName)
+        {
+            return _auctionPersistence.GetWinnerList(userName);
+        }
+
         //TODO: remove this method
         public void Delete(int id)
         {
             _auctionPersistence.Delete(id);
         }
 
+        
     }
 }

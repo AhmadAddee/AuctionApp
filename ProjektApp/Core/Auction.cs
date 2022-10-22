@@ -87,7 +87,7 @@
 
         public bool IsExpired()
         {
-            return ((DateTime.Now - CreatedDate).TotalHours >= 1);
+            return ((DateTime.Now - CreatedDate).TotalMinutes >= 5);
         }
 
         public bool IsValidBidValue(float newValue)// insteade of: _bids.All(b => newBid.OfferAmount > b.OfferAmount)
