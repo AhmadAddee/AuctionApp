@@ -12,8 +12,8 @@ using ProjektApp.Persistence;
 namespace ProjektApp.Migrations
 {
     [DbContext(typeof(AuctionDbContext))]
-    [Migration("20221020033141_AuctionDb_changed")]
-    partial class AuctionDb_changed
+    [Migration("20221021202242_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -49,6 +49,10 @@ namespace ProjektApp.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("AuctionDbs");
@@ -57,10 +61,11 @@ namespace ProjektApp.Migrations
                         new
                         {
                             Id = -1,
-                            CreatedDate = new DateTime(2022, 10, 20, 5, 31, 41, 460, DateTimeKind.Local).AddTicks(7766),
+                            CreatedDate = new DateTime(2022, 10, 21, 22, 22, 41, 888, DateTimeKind.Local).AddTicks(2748),
                             Description = "The description",
                             StartingPrice = 100f,
-                            Title = "The title"
+                            Title = "The title",
+                            UserName = "ahmadak@kth.se"
                         });
                 });
 
@@ -78,6 +83,10 @@ namespace ProjektApp.Migrations
                     b.Property<DateTime>("BidDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("BidMaker")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("OfferAmount")
                         .HasColumnType("int");
 
@@ -92,14 +101,16 @@ namespace ProjektApp.Migrations
                         {
                             Id = -1,
                             AuctionId = -1,
-                            BidDate = new DateTime(2022, 10, 20, 5, 31, 41, 460, DateTimeKind.Local).AddTicks(7908),
+                            BidDate = new DateTime(2022, 10, 21, 22, 22, 41, 888, DateTimeKind.Local).AddTicks(2919),
+                            BidMaker = "Najiib27@hotmail.se",
                             OfferAmount = 120
                         },
                         new
                         {
                             Id = -2,
                             AuctionId = -1,
-                            BidDate = new DateTime(2022, 10, 20, 5, 31, 41, 460, DateTimeKind.Local).AddTicks(7912),
+                            BidDate = new DateTime(2022, 10, 21, 22, 22, 41, 888, DateTimeKind.Local).AddTicks(2923),
+                            BidMaker = "Najiib27@hotmail.se",
                             OfferAmount = 140
                         });
                 });

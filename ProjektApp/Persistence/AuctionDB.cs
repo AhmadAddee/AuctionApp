@@ -15,6 +15,9 @@ namespace ProjektApp.Persistence
         [MaxLength(100)]
         public string Title { get; set; }
 
+        [Required]
+        public string UserName { get; set; }
+
         [MaxLength(400)]
         public string Description { get; set; }
 

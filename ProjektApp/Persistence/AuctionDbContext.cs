@@ -18,6 +18,7 @@ namespace ProjektApp.Persistence
             {
                 Id = -1,
                 Title = "The title",
+                UserName = "ahmadak@kth.se",
                 Description = "The description",
                 StartingPrice = 100,
                 CreatedDate = DateTime.Now,
@@ -29,6 +30,7 @@ namespace ProjektApp.Persistence
             {
                 Id = -1,
                 OfferAmount = 120,
+                BidMaker = "Najiib27@hotmail.se",
                 BidDate = DateTime.Now,
                 AuctionId = -1,
             };
@@ -36,6 +38,7 @@ namespace ProjektApp.Persistence
             {
                 Id = -2,
                 OfferAmount = 140,
+                BidMaker = "Najiib27@hotmail.se",
                 BidDate = DateTime.Now,
                 AuctionId = -1,
             };

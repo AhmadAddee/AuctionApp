@@ -8,12 +8,13 @@
     {
         public int Id { get; set; }
         public string BidMaker { get; set; }
-        public float OfferAmount { get; set; }
+        public int OfferAmount { get; set; }
+        public int AuctionId { get; set; }
 
         private DateTime _bidDate;
         public DateTime BidDate { get => _bidDate; }
 
-        public Bid(int id, string bidMaker, float offerAmount)
+        public Bid(int id, string bidMaker, int offerAmount)
         {
             BidMaker = bidMaker;
             Id = id;
@@ -30,9 +31,11 @@
         }
 
         // For mock data
-        public Bid(int offerAmount)
+        public Bid(int offerAmount, int auctionId, string bidMaker)
         {
             OfferAmount = offerAmount;
+            AuctionId = auctionId;
+            BidMaker = bidMaker;
             _bidDate = DateTime.Now;
         }
 

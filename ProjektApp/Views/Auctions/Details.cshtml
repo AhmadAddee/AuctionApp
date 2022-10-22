@@ -7,7 +7,7 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Auction Details</h4>
+    <h4>AuctionDetailsVM</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -47,33 +47,34 @@
     <table claass="table">
         <thead>
             <tr>
-                <th>
+                <th class ="col-sm-2">
+                    <b>Bidder</b>
+                </th>
+                <th class ="col-sm-2">
                     <b>Offer amount</b>
                 </th>
-                <th>
+                <th class="col-sm-2">
                     <b>Bid date</b>
                 </th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.BidVMs)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Offer_Amount)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Bid_Date)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit bid", "EditBid", new { id = item.Id})
-                    </td>
-                </tr>
+@foreach (var item in Model.BidVMs){
+            <tr>
+                <td class="col-sm-10">
+                    @Html.DisplayFor(modelItem => item.BidMaker)
+                </td>
+                <td class="col-sm-10">
+                    @Html.DisplayFor(modelItem => item.Offer_Amount)
+                </td>
+                <td class="col-sm-10">
+                    @Html.DisplayFor(modelItem => item.Bid_Date)
+                </td>
+            </tr>
             }
         </tbody>
     </table>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
     <a asp-action="Index">Back to List</a>
 </div>

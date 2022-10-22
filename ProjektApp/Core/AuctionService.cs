@@ -34,5 +34,27 @@ namespace ProjektApp.Core
           //  if(auction == null || auction.Id != 0) throw new InvalidDataException();
             _auctionPersistence.UpdateDesc(auction);
         }
+
+        public List<Auction> GetBidderAuctionByUserName(string userName)
+        {
+            return _auctionPersistence.GetBidderAuctionByUserName(userName);
+        }
+
+        public void AddBid(int auctionId, Bid bid)
+        {
+            _auctionPersistence.AddBid(auctionId, bid);
+        }
+
+        public bool InitateBid(int id, Bid bid)
+        {
+            return _auctionPersistence.InitateBid(id, bid);
+        }
+
+        //TODO: remove this method
+        public void Delete(int id)
+        {
+            _auctionPersistence.Delete(id);
+        }
+
     }
 }

@@ -1,9 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.UI.V4.Pages.Internal;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using ProjektApp.Core;
 using ProjektApp.Core.Interfaces;
+using ProjektApp.Models;
 using ProjektApp.ViewModels;
+using System.Net.Http.Headers;
 
 namespace ProjektApp.Controllers
 {
@@ -24,31 +28,27 @@ namespace ProjektApp.Controllers
         public ActionResult Index()
         {
             List<Auction> auctions = _auctionService.GetAll();
-            List <AuctionVM> auctionVMs = new();
-            foreach(var auction in auctions)
+            List<AuctionVM> auctionVMs = new();
+            foreach (var auction in auctions)
             {
                 auctionVMs.Add(AuctionVM.FromAuction(auction));
             }
             return View(auctionVMs);
-        }
-
-        public string Foo()
-        {
-            Auction auctions = _auctionService.GetById(-1);
-            DateTime dateTime = auctions.CreatedDate;
-            var theTestData = $"The time now is: {DateTime.Now} and the created date is: {dateTime} and is expired : {auctions.Bids.Count()}";
-            return theTestData.ToString();
         }
         
        // GET: AuctionsController/Details/5
        public ActionResult Details(int id) 
         {
             Auction auction = _auctionService.GetById(id);
+            if(auction == null) return NotFound();
+
+            // check if current user own this auction!
+            //if(!auction.UserName.Equals(User.Identity.Name)) return BadRequest();
+
             AuctionDetailsVM detailsVM = AuctionDetailsVM.FromAuction(auction);
             return View(detailsVM);
        }
 
-        
        // GET: AuctionsController/Create
        public ActionResult Create()
        {
@@ -66,6 +66,7 @@ namespace ProjektApp.Controllers
                 {
                     Title = vm.Title,
                     Description = vm.Description,
+                    UserName = User.Identity.Name,
                     StartingPrice = vm.StartingPrice,
                 };
                 _auctionService.Add(auction);
@@ -78,29 +79,107 @@ namespace ProjektApp.Controllers
         
 
        // GET: AuctionsController/Edit/5
-       public ActionResult Edit(int id)
+       public ActionResult Edit(int id, ErrorViewModel accVM)
        {
-           return View();
+            Auction auction = _auctionService.GetById(id);
+            // check if current user own this auction!
+            if (auction == null || !auction.UserName.Equals(User.Identity.Name))
+            {
+                return BadRequest();
+            }
+            return View();
        }
         
        // POST: AuctionsController/Edit/5
        [HttpPost]
        [ValidateAntiForgeryToken]
-       public ActionResult Edit(int id, AuctionVM vm)
+       public ActionResult Edit(int id, AuctionVM vm, ErrorViewModel accVM)
        {
             //if (ModelState.IsValid)
             {
-                Auction auction = new Auction(id, vm.Description);
-                _auctionService.UpdateDesc( auction);
+                Auction auction = _auctionService.GetById(id);
+                if(auction != null && auction.UserName.Equals(User.Identity.Name))
+                {
+                    auction.Description = vm.Description;
+                    // check if current user own this auction!
+                    if (!auction.UserName.Equals(User.Identity.Name)) return BadRequest();
+                    _auctionService.UpdateDesc(auction);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
             return RedirectToAction("Index");
        }
-        /*
 
-       // GET: AuctionsController/Delete/5
-       public ActionResult Delete(int id)
+        // GET: AuctionsController/Biddings
+        public ActionResult BidderList()
+        {
+            string userName = User.Identity.Name;
+            List<Auction> auctions = _auctionService.GetBidderAuctionByUserName(userName);
+            List<AuctionVM> auctionVMs = new List<AuctionVM>();
+            foreach(var auction in auctions)
+            {
+                auctionVMs.Add(AuctionVM.FromAuction(auction));
+            }
+            return View(auctionVMs);
+        }
+
+        /*
+        // GET: AuctionsController/MakeBid
+        public ActionResult MakeBid(int id)
+        {
+            return View();
+        }
+        
+        // POST: AuctionsController/MakeBid
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult MakeBid(int id, MakeABidVM vm)
+        {
+            if (ModelState.IsValid)
+            {
+                Bid bid = new Bid()
+                {
+                    OfferAmount = vm.OfferAmount,
+                    AuctionId = id,
+                    BidMaker = User.Identity.Name,
+                };
+                _auctionService.AddBid(id, bid);
+                return RedirectToAction("Index");
+            }
+            return View(vm);
+        }
+        */
+        // GET: AuctionsController/Bid
+        public ActionResult Bid(int id)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Bid(int id, BidVM bidVm)
+        {
+            var bid = new Bid()
+            {
+                BidMaker = User.Identity.Name,
+                AuctionId = id,
+                OfferAmount = bidVm.Offer_Amount,
+            };
+
+             _auctionService.InitateBid(id, bid);
+            return View(bidVm);
+        }
+
+
+        // GET: AuctionsController/Delete/5
+        public ActionResult Delete(int id)
        {
-           return View();
+            Auction auctio = _auctionService.GetById(id);
+            AuctionVM auctionVM = AuctionVM.FromAuction(auctio);
+            return View(auctionVM);
        }
 
        // POST: AuctionsController/Delete/5
@@ -108,15 +187,10 @@ namespace ProjektApp.Controllers
        [ValidateAntiForgeryToken]
        public ActionResult Delete(int id, IFormCollection collection)
        {
-           try
-           {
-               return RedirectToAction(nameof(Index));
-           }
-           catch
-           {
-               return View();
-           }
-       }
-        */
+            _auctionService.Delete(id);
+            return RedirectToAction("Index");
+
+        }
+        
     }
 }

@@ -12,6 +12,9 @@ namespace ProjektApp.Persistence
         public int Id { get; set; }
 
         [Required]
+        public string BidMaker { get; set; }
+
+        [Required]
         public int OfferAmount { get; set; }
 
         [Required]
@@ -21,6 +24,7 @@ namespace ProjektApp.Persistence
         [ForeignKey("AuctionId")]
         public AuctionDb AuctionDb { get; set; }
 
+        [Required]
         public int AuctionId { get; set; }
     }
 }

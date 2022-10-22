@@ -7,10 +7,12 @@ namespace ProjektApp.ViewModels
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        //public string Auction_Owner { get; set; }
+        public string UserName { get; set; }
         public float Starting_Price { get; set; }
         public DateTime Created_Date { get; set; }
         public bool Is_Expired { get; set; }
+
+        public List<BidVM> BidVMs { get; set; } = new List<BidVM>();
 
         public static AuctionVM FromAuction(Auction auction)
         {
