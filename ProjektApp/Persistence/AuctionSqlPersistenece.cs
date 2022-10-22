@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProjektApp.Core;
 using ProjektApp.Core.Interfaces;
+using ProjektApp.ViewModels;
 using System.Linq;
 
 namespace ProjektApp.Persistence

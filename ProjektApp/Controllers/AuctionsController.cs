@@ -125,6 +125,11 @@ namespace ProjektApp.Controllers
         {
             string userName = User.Identity.Name;
             List<Auction> auctions = _auctionService.GetWinnerList(userName);
+            foreach(var auction in auctions)
+            {
+                //float maxValue = auction.Bids.Max(m => m.OfferAmount);
+                //auction.HighestBid = maxValue;
+            }
             List<AuctionVM> auctionVMs = new List<AuctionVM>();
             foreach (var auction in auctions)
             {
@@ -162,7 +167,6 @@ namespace ProjektApp.Controllers
             AuctionDetailsVM detailsVM = AuctionDetailsVM.FromAuction(auction);
             return RedirectToAction("Details", detailsVM);
         }
-
 
         // GET: AuctionsController/Delete/5
         public ActionResult Delete(int id)

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ProjektApp.ViewModels.AuctionVM>
 
 @{
-    ViewData["Title"] = "WinnerList";
+    ViewData["Title"] = "Winner List";
 
 }
 
@@ -26,13 +26,10 @@
                 @Html.DisplayNameFor(model => model.Starting_Price)
             </th>
             <th>
-                Max bid
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Created_Date)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Is_Expired)
+                Max bid
             </th>
             <th></th>
         </tr>
@@ -59,11 +56,9 @@
                 @Html.DisplayFor(modelItem => item.Created_Date)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Is_Expired)
+                @Html.DisplayFor(modelItem => item.HighestBid)
             </td>
             <td>
-                <!--@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |-->
-                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
                 <!--@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })-->
             </td>
         </tr>

@@ -12,7 +12,7 @@ namespace ProjektApp.ViewModels
         public float Starting_Price { get; set; }
         public DateTime Created_Date { get; set; }
         public bool Is_Expired { get; set; }
-        public int MaxValue { get; set; }
+        public float HighestBid { get; set; }
 
         public List<BidVM> BidVMs { get; set; } = new List<BidVM>();
 
@@ -35,8 +35,9 @@ namespace ProjektApp.ViewModels
                 Id = auction.Id,
                 Title = auction.Title,
                 Description = auction.Description,
-                //Auction_Owner = auction.AuctionOwner,
+                UserName = auction.AuctionOwner,
                 BidVMs = bids,
+                HighestBid = auction.HighestBid,
                 Starting_Price = auction.StartingPrice,
                 Created_Date = auction.CreatedDate,
                 Is_Expired = auction.IsExpired()
