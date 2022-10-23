@@ -14,11 +14,6 @@
 
         List<Auction> GetWinnerList(string userName);
 
-        void AddBid(int auctionId, Bid bid);
-
         bool InitateBid(int id, Bid bid);
-
-        //TODO: remove this method.
-        void Delete(int id);
     }
 }

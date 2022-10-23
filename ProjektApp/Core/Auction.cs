@@ -19,66 +19,23 @@
 
         public List<Bid> _bids = new List<Bid>();
         public IEnumerable<Bid> Bids => _bids;
-
-        public Auction(int id, string title, string description, string auctionOwner, float staringPrice)
-        {
-            Id = id;
-            Title = title;
-            Description = description;
-            AuctionOwner = auctionOwner;
-            StartingPrice = staringPrice;
-            HighestBid = StartingPrice;
-            CreatedDate = DateTime.Now;
-        }
-
-        public Auction(string title, string description, float staringPrice)
-        {
-            Title = title;
-            Description = description;
-            StartingPrice = staringPrice;
-            HighestBid = StartingPrice;
-            CreatedDate = DateTime.Now;
-        }
-
-        public Auction(string title, string description, string userName, float staringPrice)
-        {
-            Title = title;
-            Description = description;
-            AuctionOwner = userName;
-            StartingPrice = staringPrice;
-            HighestBid = StartingPrice;
-            CreatedDate = DateTime.Now;
-        }
-
-        // For mockdata
-        public Auction(int id, string title, string description) { 
-            Id = id;
-            Title = title;
-            CreatedDate = DateTime.Now;
-            Description = description;
-        }
-
-        // For mockdata
-        public Auction(string title, string description)
-        {
-            Title = title;
-            Description = description;
-            CreatedDate = DateTime.Now;
-        }
-
-        public Auction(int id, string description)
-        {
-            Id = id;
-            Description = description;
-        }
-
-        // For mockdata
+        
         public Auction() { }
+        
+        private Auction (string title, string desc, string owner, float startPrice, float MaxPrice, string imgUrl)
+        {
+            Title = title; Description = desc; AuctionOwner = owner;
+            StartingPrice = startPrice; HighestBid = MaxPrice;
+            ImageUrl = imgUrl;// CreatedDate = DateTime.Now;
+        }
+        public static Auction CreateAuction(string title, string desc, string owner, float startPrice, float MaxPrice, string imgUrl)
+        {
+            return new Auction(title, desc, owner, startPrice, MaxPrice, imgUrl );
+        
+        }
 
         public void AddBid(Bid newBid)
         {
-            // TODO: Throw an exeption if the bid is lower. And check that the owner of this auction can't bid on it.
-           //if (!IsExpired() && newBid != null && IsValidBidValue(newBid.OfferAmount)) 
             {
                 HighestBid = newBid.OfferAmount;
                 _bids.Add(newBid);
@@ -90,7 +47,7 @@
             return ((DateTime.Now - CreatedDate).TotalHours >= 2);
         }
 
-        public bool IsValidBidValue(float newValue)// insteade of: _bids.All(b => newBid.OfferAmount > b.OfferAmount)
+        public bool IsValidBidValue(float newValue)
         {
             return (newValue > HighestBid);
         }

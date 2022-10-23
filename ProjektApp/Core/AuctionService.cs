@@ -40,13 +40,10 @@ namespace ProjektApp.Core
             return _auctionPersistence.GetBidderAuctionByUserName(userName);
         }
 
-        public void AddBid(int auctionId, Bid bid)
-        {
-            _auctionPersistence.AddBid(auctionId, bid);
-        }
-
         public bool InitateBid(int id, Bid bid)
         {
+            if (bid == null || bid.Id != 0) throw new InvalidDataException();
+            bid.BidDate = DateTime.Now;
             return _auctionPersistence.InitateBid(id, bid);
         }
 
@@ -55,12 +52,15 @@ namespace ProjektApp.Core
             return _auctionPersistence.GetWinnerList(userName);
         }
 
-        //TODO: remove this method
-        public void Delete(int id)
+        public Auction CreateAuction(string title, string desc, string owner, float startPrice, float MaxPrice, string imgUrl)
         {
-            _auctionPersistence.Delete(id);
+            Auction auction = Auction.CreateAuction(
+                    title, desc,
+                    owner,
+                    startPrice,
+                    MaxPrice,
+                    imgUrl);
+            return auction;
         }
-
-        
     }
 }

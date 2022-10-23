@@ -27,7 +27,7 @@ namespace ProjektApp.Persistence
                 .ToList();
 
             List<Auction> result = new List<Auction>();
-            if(auctionDbs != null)
+            if (auctionDbs != null)
             {
                 foreach (AuctionDb auct in auctionDbs)
                 {
@@ -49,7 +49,7 @@ namespace ProjektApp.Persistence
                 .SingleOrDefault();
 
             Auction auction = _mapper.Map<Auction>(auctionDb);
-            if(auction != null)
+            if (auction != null)
             {
                 foreach (BidDb bdb in auctionDb.BidDbs)
                 {
@@ -63,7 +63,7 @@ namespace ProjektApp.Persistence
         {
             AuctionDb adp = _mapper.Map<AuctionDb>(auction);
 
-            if(adp != null)
+            if (adp != null)
             {
                 _dbContext.AuctionDbs.Add(adp);
                 _dbContext.SaveChanges();
@@ -72,10 +72,10 @@ namespace ProjektApp.Persistence
 
         public void UpdateDesc(Auction auction)
         {
-           var adb = _dbContext.AuctionDbs
-                .Where(a => a.Id == auction.Id)
-                .SingleOrDefault();
-            if(adb != null)
+            var adb = _dbContext.AuctionDbs
+                 .Where(a => a.Id == auction.Id)
+                 .SingleOrDefault();
+            if (adb != null)
             {
                 adb.Description = auction.Description;
                 _dbContext.SaveChanges();
@@ -91,7 +91,7 @@ namespace ProjektApp.Persistence
                 .ToList();
 
             List<Auction> result = new List<Auction>();
-            if(auctionDbs != null)
+            if (auctionDbs != null)
             {
                 foreach (AuctionDb auct in auctionDbs)
                 {
@@ -102,17 +102,6 @@ namespace ProjektApp.Persistence
             return result;
         }
 
-        public void AddBid(int auctionId, Bid bid)
-        {
-            AuctionDb auctionDb = _dbContext.AuctionDbs
-                .Where(a => a.Id == auctionId)
-                .SingleOrDefault();
-            BidDb bidDb = _mapper.Map<BidDb>(bid);
-            auctionDb.BidDbs.Add(bidDb);
-            _dbContext.SaveChanges();
-        }
-
-        /************/
         public bool InitateBid(int id, Bid bid)
         {
 
@@ -120,7 +109,7 @@ namespace ProjektApp.Persistence
 
             var BidDb = _dbContext.BidDbs.OrderBy(a => a.OfferAmount).Where(a => a.AuctionId == id).FirstOrDefault();
 
-            if(BidDb == null && auctionDd != null)
+            if (BidDb == null && auctionDd != null)
             {
                 if (bid.OfferAmount > auctionDd.StartingPrice && bid.OfferAmount > auctionDd.HighestBid)
                 {
@@ -161,10 +150,10 @@ namespace ProjektApp.Persistence
         {
 
             var auctionDbs = _dbContext.AuctionDbs
-                .Include(a => a.BidDbs )
+                .Include(a => a.BidDbs)
                 .AsEnumerable()
                 .Where(a => (_mapper.Map<Auction>(a).IsExpired() == true)
-                && a.BidDbs.Any(b => a.Id == b.AuctionId && b.BidMaker.Equals(userName) 
+                && a.BidDbs.Any(b => a.Id == b.AuctionId && b.BidMaker.Equals(userName)
                 && b.OfferAmount == a.BidDbs.Max(m => m.OfferAmount)))
                 .ToList();
 
@@ -179,38 +168,5 @@ namespace ProjektApp.Persistence
             }
             return result;
         }
-
-        public void Delete(int id)
-        {
-            var adb = _dbContext.AuctionDbs
-                .Where(a => a.Id == id)
-                .SingleOrDefault();
-
-            if(adb != null)
-            {
-                _dbContext.AuctionDbs.Remove(adb);
-                _dbContext.SaveChanges();
-            }
-        }
-
-       
     }
 }
-
-/**
- * To query the database;
- * One object:
- * - var auctionDb = _dbContext.AuctionDbs.Find(1);
- * - var auctionDb = _dbContext.AuctionDbs
- *      .Where(a => a.Id == id)
- *      .SingleOrDefault();
- * Multiple objects: (Lazy loading)
- * - var auctionDbs = _dbContext.AuctionDbs
- *      .Where(a => [some predicate] )
- *      .ToList();
- * Multiple objects: (Eger loading)
- * - var auctionDbs = _dbContext.AuctionDbs
- *      .Where(a => [some predicate] )
- *      .Include(a = a.BidDbs)
- *      .ToList();
- */

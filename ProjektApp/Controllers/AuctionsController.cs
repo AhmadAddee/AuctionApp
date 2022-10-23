@@ -1,13 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity.UI.V4.Pages.Internal;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using ProjektApp.Core;
 using ProjektApp.Core.Interfaces;
 using ProjektApp.Models;
 using ProjektApp.ViewModels;
-using System.Net.Http.Headers;
 
 namespace ProjektApp.Controllers
 {
@@ -21,9 +17,6 @@ namespace ProjektApp.Controllers
             _auctionService = auctionService;
         }
 
-        /* This method is called from the client browser.
-         * Returns completed pure HTML pages to the client browser
-         */
         // GET: AuctionsController
         public ActionResult Index()
         {
@@ -60,15 +53,13 @@ namespace ProjektApp.Controllers
        {
             if (ModelState.IsValid)
             {
-                Auction auction = new Auction()
-                {
-                    Title = vm.Title,
-                    Description = vm.Description,
-                    AuctionOwner = User.Identity.Name,
-                    StartingPrice = vm.StartingPrice,
-                    HighestBid = vm.StartingPrice,
-                    ImageUrl = vm.ImageUrl,
-                };
+                Auction auction = _auctionService.CreateAuction(
+                    vm.Title, vm.Description,
+                    User.Identity.Name,
+                    vm.StartingPrice,
+                    vm.StartingPrice,
+                    vm.ImageUrl
+                    );
                 _auctionService.Add(auction);
                 return RedirectToAction("Index");
             }
@@ -112,8 +103,7 @@ namespace ProjektApp.Controllers
         // GET: AuctionsController/Biddings
         public ActionResult BidderList()
         {
-            string userName = User.Identity.Name;
-            List<Auction> auctions = _auctionService.GetBidderAuctionByUserName(userName);
+            List<Auction> auctions = _auctionService.GetBidderAuctionByUserName(User.Identity.Name);
             List<AuctionVM> auctionVMs = new List<AuctionVM>();
             foreach(var auction in auctions)
             {
@@ -126,13 +116,8 @@ namespace ProjektApp.Controllers
         // GET: AuctionsController/WinnerList
         public ActionResult WinnerList()
         {
-            string userName = User.Identity.Name;
-            List<Auction> auctions = _auctionService.GetWinnerList(userName);
-            foreach(var auction in auctions)
-            {
-                //float maxValue = auction.Bids.Max(m => m.OfferAmount);
-                //auction.HighestBid = maxValue;
-            }
+            List<Auction> auctions = _auctionService.GetWinnerList(User.Identity.Name);
+            
             List<AuctionVM> auctionVMs = new List<AuctionVM>();
             foreach (var auction in auctions)
             {
@@ -171,24 +156,5 @@ namespace ProjektApp.Controllers
             AuctionDetailsVM detailsVM = AuctionDetailsVM.FromAuction(auction);
             return RedirectToAction("Details", detailsVM);
         }
-
-        // GET: AuctionsController/Delete/5
-        public ActionResult Delete(int id)
-       {
-            Auction auctio = _auctionService.GetById(id);
-            AuctionVM auctionVM = AuctionVM.FromAuction(auctio);
-            return View(auctionVM);
-       }
-
-       // POST: AuctionsController/Delete/5
-       [HttpPost]
-       [ValidateAntiForgeryToken]
-       public ActionResult Delete(int id, IFormCollection collection)
-       {
-            _auctionService.Delete(id);
-            return RedirectToAction("Index");
-
-        }
-        
     }
 }
