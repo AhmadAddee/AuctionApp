@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<ProjektApp.ViewModels.AuctionVM>
 
 @{
-    ViewData["Name"] = "Auctions";
+    ViewData["Title"] = "Index";
 }
 
-<h1>All Auctions</h1>
+<h1>The auction list</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,19 +13,19 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.ImageUrl)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
-            <!--th>
+            <th>
                 @Html.DisplayNameFor(model => model.Description)
-            </th-->
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Starting_Price)
             </th>
-            <!--th>
-                @Html.DisplayNameFor(model => model.Created_Date)
-            </th-->
             <th>
-                @Html.DisplayNameFor(model => model.Is_Expired)
+                @Html.DisplayNameFor(model => model.HighestBid)
             </th>
             <th></th>
         </tr>
@@ -34,27 +34,26 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                    @Html.DisplayFor(modelItem => item.Title)
+                <img src="@item.ImageUrl" alt="image" width="200px" />
             </td>
-            <!--td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Description)
-            </td-->
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Starting_Price)
             </td>
-            <!--td>
-                @Html.DisplayFor(modelItem => item.Created_Date)
-            </td-->
             <td>
-                @Html.DisplayFor(modelItem => item.Is_Expired)
+                @Html.DisplayFor(modelItem => item.HighestBid)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new {  id = item.Id  }) |
-                @Html.ActionLink("Bid", "Bid", new {  id = item.Id  }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                    <!--@Html.ActionLink("Delete", "Delete", new { id=item.Id }) |-->
+                @Html.ActionLink("Bid", "Bid", new { id=item.Id })
             </td>
         </tr>
-        }
+}
     </tbody>
 </table>

@@ -5,13 +5,13 @@
 
 }
 
-<h1>Winner List</h1>
+<h1>Auctions I won</h1>
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                @Html.DisplayNameFor(model => model.ImageUrl)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Title)
@@ -20,16 +20,16 @@
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserName)
+                @Html.DisplayNameFor(model => model.AuctionOwner)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Starting_Price)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Created_Date)
+                @Html.DisplayNameFor(model => model.HighestBid)
             </th>
             <th>
-                Max bid
+                @Html.DisplayNameFor(model => model.Created_Date)
             </th>
             <th></th>
         </tr>
@@ -38,7 +38,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Id)
+                <img src="@item.ImageUrl" alt="image" width="200px" />
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
@@ -47,19 +47,18 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.UserName)
+                @Html.DisplayFor(modelItem => item.AuctionOwner)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Starting_Price)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Created_Date)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.HighestBid)
             </td>
             <td>
-                <!--@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })-->
+                @Html.DisplayFor(modelItem => item.Created_Date)
+            </td>
+            <td>
             </td>
         </tr>
 }

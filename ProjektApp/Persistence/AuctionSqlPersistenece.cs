@@ -122,9 +122,10 @@ namespace ProjektApp.Persistence
 
             if(BidDb == null && auctionDd != null)
             {
-                if (bid.OfferAmount > auctionDd.StartingPrice)
+                if (bid.OfferAmount > auctionDd.StartingPrice && bid.OfferAmount > auctionDd.HighestBid)
                 {
                     BidDb adp = _mapper.Map<BidDb>(bid);
+                    auctionDd.HighestBid = bid.OfferAmount;
                     _dbContext.BidDbs.Add(adp);
                     adp.AuctionId = id;
                     _dbContext.SaveChanges();
@@ -145,6 +146,7 @@ namespace ProjektApp.Persistence
                     BidDb adp = _mapper.Map<BidDb>(bid);
                     _dbContext.BidDbs.Add(adp);
                     adp.AuctionId = id;
+                    auctionDb.HighestBid = adp.OfferAmount;
                     _dbContext.SaveChanges();
                     return true;
                 }

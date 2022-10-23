@@ -15,17 +15,23 @@ namespace ProjektApp.Persistence
         [MaxLength(100)]
         public string Title { get; set; }
 
-        [Required]
-        public string UserName { get; set; }
-
         [MaxLength(400)]
         public string Description { get; set; }
 
         [Required]
+        public string AuctionOwner { get; set; }
+
+        [Required]
         [MaxLength(100)]
         public float StartingPrice { get; set; }
-        
-        
+
+        [Required]
+        public float HighestBid { get; set; }
+
+        [Required]
+        [MaxLength(400)]
+        public string ImageUrl { get; set; }
+
         [Required]
         [DataType(DataType.DateTime)]
         public DateTime CreatedDate { get; set; }

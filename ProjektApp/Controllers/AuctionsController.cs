@@ -33,6 +33,7 @@ namespace ProjektApp.Controllers
             {
                 auctionVMs.Add(AuctionVM.FromAuction(auction));
             }
+            auctionVMs.Reverse();
             return View(auctionVMs);
         }
         
@@ -63,8 +64,10 @@ namespace ProjektApp.Controllers
                 {
                     Title = vm.Title,
                     Description = vm.Description,
-                    UserName = User.Identity.Name,
+                    AuctionOwner = User.Identity.Name,
                     StartingPrice = vm.StartingPrice,
+                    HighestBid = vm.StartingPrice,
+                    ImageUrl = vm.ImageUrl,
                 };
                 _auctionService.Add(auction);
                 return RedirectToAction("Index");
@@ -77,7 +80,7 @@ namespace ProjektApp.Controllers
        {
             Auction auction = _auctionService.GetById(id);
             // check if current user own this auction!
-            if (auction == null || !auction.UserName.Equals(User.Identity.Name))
+            if (auction == null || !auction.AuctionOwner.Equals(User.Identity.Name))
             {
                 return BadRequest();
             }
@@ -90,21 +93,20 @@ namespace ProjektApp.Controllers
        public ActionResult Edit(int id, AuctionVM vm, ErrorViewModel accVM)
        {
             //if (ModelState.IsValid)
+            Auction auction = _auctionService.GetById(id);
+            if(auction != null && auction.AuctionOwner.Equals(User.Identity.Name))
             {
-                Auction auction = _auctionService.GetById(id);
-                if(auction != null && auction.UserName.Equals(User.Identity.Name))
-                {
-                    auction.Description = vm.Description;
-                    // check if current user own this auction!
-                    if (!auction.UserName.Equals(User.Identity.Name)) return BadRequest();
-                    _auctionService.UpdateDesc(auction);
-                }
-                else
-                {
-                    return BadRequest();
-                }
+                auction.Description = vm.Description;
+                // check if current user own this auction!
+                if (!auction.AuctionOwner.Equals(User.Identity.Name)) return BadRequest();
+                _auctionService.UpdateDesc(auction);
+                AuctionDetailsVM detailsVM = AuctionDetailsVM.FromAuction(auction);
+                return RedirectToAction("Details", detailsVM);
             }
-            return RedirectToAction("Index");
+            else
+            {
+                return BadRequest();
+            }
        }
 
         // GET: AuctionsController/Biddings
@@ -117,6 +119,7 @@ namespace ProjektApp.Controllers
             {
                 auctionVMs.Add(AuctionVM.FromAuction(auction));
             }
+            auctionVMs.Reverse();
             return View(auctionVMs);
         }
 
@@ -135,6 +138,7 @@ namespace ProjektApp.Controllers
             {
                 auctionVMs.Add(AuctionVM.FromAuction(auction));
             }
+            auctionVMs.Reverse();
             return View(auctionVMs);
         }
 
@@ -143,7 +147,7 @@ namespace ProjektApp.Controllers
         {
             Auction auction = _auctionService.GetById(id);
             if (auction == null) return NotFound();
-            if(auction.UserName.Equals( User.Identity.Name)) return BadRequest();
+            if(auction.AuctionOwner.Equals( User.Identity.Name)) return BadRequest();
             return View();
         }
 

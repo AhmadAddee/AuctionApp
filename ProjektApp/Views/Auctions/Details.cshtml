@@ -7,8 +7,9 @@
 <h1>Details</h1>
 
 <div>
-    <h4>AuctionDetailsVM</h4>
+    <h4>Auction Details -- @Html.DisplayFor(model => model.Title) </h4>
     <hr />
+    <img src="@Model.ImageUrl" alt="image" width="400px" />
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Title)
@@ -22,11 +23,23 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Description)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AuctionOwner)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AuctionOwner)
+        </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Starting_Price)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Starting_Price)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.HighestBid)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.HighestBid)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Created_Date)
@@ -41,9 +54,12 @@
             @Html.DisplayFor(model => model.Is_Expired)
         </dd>
     </dl>
+    <div>
+        @Html.ActionLink("Edit the description", "Edit", new { id = Model.Id })
+    </div>
 </div>
 <div>
-    <h4>Bids</h4>
+    <h3><b>Bids</b></h3>
     <table claass="table">
         <thead>
             <tr>
@@ -74,6 +90,9 @@
             }
         </tbody>
     </table>
+</div>
+<div>
+    @Html.ActionLink("Bid", "Bid", new { Model.Id })
 </div>
 <div>
     <a asp-action="Index">Back to List</a>

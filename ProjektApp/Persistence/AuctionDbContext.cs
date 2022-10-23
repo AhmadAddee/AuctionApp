@@ -18,9 +18,11 @@ namespace ProjektApp.Persistence
             {
                 Id = -1,
                 Title = "The title",
-                UserName = "ahmadak@kth.se",
                 Description = "The description",
+                AuctionOwner = "ahmadak@kth.se",
                 StartingPrice = 100,
+                HighestBid = 100,
+                ImageUrl = "https://tinyjpg.com/images/social/website.jpg",
                 CreatedDate = DateTime.Now,
                 BidDbs = new List<BidDb>()
             };

@@ -13,5 +13,8 @@ namespace ProjektApp.ViewModels
 
         [Required]
         public float StartingPrice { get; set; }
+
+        [Required]
+        public string ImageUrl { get; set; }
     }
 }

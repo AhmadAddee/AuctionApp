@@ -11,10 +11,10 @@
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public string UserName { get; set; }
         public string AuctionOwner { get; set; }
         public float StartingPrice { get; set; }
         public float HighestBid { get; set; }
+        public string ImageUrl { get; set; }
         public DateTime CreatedDate { get; set; }
 
         public List<Bid> _bids = new List<Bid>();
@@ -44,7 +44,7 @@
         {
             Title = title;
             Description = description;
-            UserName = userName;
+            AuctionOwner = userName;
             StartingPrice = staringPrice;
             HighestBid = StartingPrice;
             CreatedDate = DateTime.Now;
@@ -87,7 +87,7 @@
 
         public bool IsExpired()
         {
-            return ((DateTime.Now - CreatedDate).TotalMinutes >= 5);
+            return ((DateTime.Now - CreatedDate).TotalHours >= 2);
         }
 
         public bool IsValidBidValue(float newValue)// insteade of: _bids.All(b => newBid.OfferAmount > b.OfferAmount)
