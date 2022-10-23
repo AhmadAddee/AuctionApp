@@ -3,9 +3,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ProjektApp.Persistence
 {
-    /*
-     * A database class that represents the Auction table, created in the database via Entity Framework.
-     */
     public class AuctionDb
     {
         [Key]

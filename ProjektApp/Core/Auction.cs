@@ -28,10 +28,10 @@
             StartingPrice = startPrice; HighestBid = MaxPrice;
             ImageUrl = imgUrl;// CreatedDate = DateTime.Now;
         }
+
         public static Auction CreateAuction(string title, string desc, string owner, float startPrice, float MaxPrice, string imgUrl)
         {
             return new Auction(title, desc, owner, startPrice, MaxPrice, imgUrl );
-        
         }
 
         public void AddBid(Bid newBid)
@@ -44,7 +44,7 @@
 
         public bool IsExpired()
         {
-            return ((DateTime.Now - CreatedDate).TotalHours >= 2);
+            return ((DateTime.Now - CreatedDate).TotalHours >= 24);
         }
 
         public bool IsValidBidValue(float newValue)

@@ -10,8 +10,6 @@
         public string BidMaker { get; set; }
         public int OfferAmount { get; set; }
         public int AuctionId { get; set; }
-
-        //private DateTime _bidDate;
         public DateTime BidDate { get; set; }
 
         public Bid() { }

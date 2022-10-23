@@ -23,7 +23,6 @@ namespace ProjektApp.Core
 
         public void Add(Auction auction)
         {
-            // Assume no bids in new auction
             if (auction == null || auction.Id != 0) throw new InvalidDataException();
             auction.CreatedDate = DateTime.Now;
             _auctionPersistence.Add(auction);
@@ -31,7 +30,6 @@ namespace ProjektApp.Core
 
         public void UpdateDesc(Auction auction)
         {
-          //  if(auction == null || auction.Id != 0) throw new InvalidDataException();
             _auctionPersistence.UpdateDesc(auction);
         }
 

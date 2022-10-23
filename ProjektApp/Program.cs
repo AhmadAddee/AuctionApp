@@ -25,7 +25,7 @@ builder.Services.AddDbContext<AuctionDbContext>(options =>
 // identity configuration
 // the first stament is missing from the scaffolding
 builder.Services.AddDbContext<ProjektAppIdentityContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ProjektAppIdentityContextConnection")));//  AuctionAppIdentityContextConnection
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ProjektAppIdentityContextConnection")));
 builder.Services.AddDefaultIdentity<ProjektAppUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ProjektAppIdentityContext>();
 

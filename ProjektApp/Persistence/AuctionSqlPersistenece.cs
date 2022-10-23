@@ -18,8 +18,6 @@ namespace ProjektApp.Persistence
             _mapper = mapper;
         }
 
-        // Filter the list so that only ongoing auction is stored in it.
-        // Query the database after auctions where their cretedDate is lower than 24 h.
         public List<Auction> GetAll()
         {
             var auctionDbs = _dbContext.AuctionDbs.AsEnumerable()
@@ -41,7 +39,6 @@ namespace ProjektApp.Persistence
         // used to view the details (and relative bids) of a specifik auction
         public Auction GetById(int id)
         {
-            // eager loading
             var auctionDb = _dbContext.AuctionDbs
                 .Include(a => a.BidDbs)
                 .AsEnumerable()
@@ -105,13 +102,13 @@ namespace ProjektApp.Persistence
         public bool InitateBid(int id, Bid bid)
         {
 
-            var auctionDd = _dbContext.AuctionDbs.Where(a => a.Id == id).SingleOrDefault();
+            AuctionDb auctionDd = _dbContext.AuctionDbs.Where(a => a.Id == id).SingleOrDefault();
 
-            var BidDb = _dbContext.BidDbs.OrderBy(a => a.OfferAmount).Where(a => a.AuctionId == id).FirstOrDefault();
+            BidDb bidDb = _dbContext.BidDbs.OrderBy(a => a.OfferAmount).Where(a => a.AuctionId == id).FirstOrDefault();
 
-            if (BidDb == null && auctionDd != null)
+            if (bidDb == null && auctionDd != null)
             {
-                if (bid.OfferAmount > auctionDd.StartingPrice && bid.OfferAmount > auctionDd.HighestBid)
+                if (bid.OfferAmount > auctionDd.StartingPrice)
                 {
                     BidDb adp = _mapper.Map<BidDb>(bid);
                     auctionDd.HighestBid = bid.OfferAmount;
@@ -122,7 +119,7 @@ namespace ProjektApp.Persistence
                 }
             }
 
-            if (BidDb != null && auctionDd != null)
+            if (bidDb != null && auctionDd != null)
             {
                 var auctionDb = _dbContext.AuctionDbs
                 .Include(a => a.BidDbs)
@@ -140,10 +137,7 @@ namespace ProjektApp.Persistence
                     return true;
                 }
             }
-
-
             return false;
-
         }
 
         public List<Auction> GetWinnerList(string userName)

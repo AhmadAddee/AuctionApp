@@ -3,10 +3,7 @@
 namespace ProjektApp.Persistence
 {
     public class AuctionDbContext : DbContext
-    {
-        /*
-         * Represents the connection itself to the databese, and contains the objects just read from the database.
-         */
+    { 
         public AuctionDbContext(DbContextOptions<AuctionDbContext> options) : base(options) { }
 
         public DbSet<BidDb> BidDbs { get; set; }

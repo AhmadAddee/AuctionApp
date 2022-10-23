@@ -70,7 +70,6 @@ namespace ProjektApp.Controllers
        public ActionResult Edit(int id, ErrorViewModel accVM)
        {
             Auction auction = _auctionService.GetById(id);
-            // check if current user own this auction!
             if (auction == null || !auction.AuctionOwner.Equals(User.Identity.Name))
             {
                 return BadRequest();
@@ -83,13 +82,10 @@ namespace ProjektApp.Controllers
        [ValidateAntiForgeryToken]
        public ActionResult Edit(int id, AuctionVM vm, ErrorViewModel accVM)
        {
-            //if (ModelState.IsValid)
             Auction auction = _auctionService.GetById(id);
             if(auction != null && auction.AuctionOwner.Equals(User.Identity.Name))
             {
                 auction.Description = vm.Description;
-                // check if current user own this auction!
-                if (!auction.AuctionOwner.Equals(User.Identity.Name)) return BadRequest();
                 _auctionService.UpdateDesc(auction);
                 AuctionDetailsVM detailsVM = AuctionDetailsVM.FromAuction(auction);
                 return RedirectToAction("Details", detailsVM);
@@ -131,11 +127,11 @@ namespace ProjektApp.Controllers
         public ActionResult Bid(int id)
         {
             Auction auction = _auctionService.GetById(id);
-            if (auction == null) return NotFound();
-            if(auction.AuctionOwner.Equals( User.Identity.Name)) return BadRequest();
+            if(auction == null || auction.AuctionOwner.Equals( User.Identity.Name)) return BadRequest();
             return View();
         }
 
+        // GET: AuctionsController/Bid/1
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Bid(int id, BidVM bidVm)
