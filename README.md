@@ -9,3 +9,6 @@ Dependency injection is used to provide a layer access to the underlying layer's
 The presentations layer is implemented with MVC as well as view-models.
 Entity Framework is used such as ORM in the data layer. EF-classes are written so that BidDb gets a FK to AuctionDb in the database.
 Identity is used for login, logout, and registing of new users. User database is a separate one.
+
+
+A demo of the application: https://youtu.be/2FnvIi4dBA8
